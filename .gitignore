@@ -1,0 +1,6 @@
+.idea
+target
+atlassian-ide-plugin.xml
+*.iml
+.DS_Store
+Thumbs.db
