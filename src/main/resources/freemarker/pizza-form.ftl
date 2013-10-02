@@ -1,5 +1,11 @@
-<@page title="Welcome to design-a pizza" activeNav="home">
-<#include "/common/carousel.ftl"/>
+<@page title="Design-a pizza &#10102; Choose your base size" activeNav="about">
+<div class="container">
+    <div class="hero-unit">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-large" href="#">Learn more »</a></p>
+    </div>
+</div>
 <div class="container marketing">
     <!-- Three columns of text below the carousel -->
     <div class="row">
