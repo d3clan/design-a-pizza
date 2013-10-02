@@ -154,7 +154,9 @@ body {
     letter-spacing: -1px;
 }
 
-
+.custom-carousel-height {
+    height: 340px;
+}
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
@@ -235,5 +237,4 @@ body {
         font-size: 18px;
         line-height: 1.5;
     }
-
 }
