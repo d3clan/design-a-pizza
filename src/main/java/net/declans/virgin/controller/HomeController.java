@@ -17,9 +17,9 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value= {"/"}, headers = "Accept=text/html")
+	@RequestMapping(value= {"/"})
 	public ModelAndView home() {
-		logger.info("Hitting the home controller");
+		logger.debug("Hit the HomeController");
 		ModelAndView mav = new ModelAndView("home");
 		return mav;
 	}
