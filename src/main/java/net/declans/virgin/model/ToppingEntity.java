@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  *    Represents a pizza topping
  *
  * <p>
- *    In the real world this would be a JPA entity
+ *    In the real world this would be a JPA entity (or similar)
  *
  * @author Declan Newman (declan)
  */
@@ -22,6 +22,13 @@ public class ToppingEntity implements Serializable {
 
     public ToppingEntity() {
         super();
+    }
+
+    public ToppingEntity(String[] topping) {
+        super();
+        this.id = Integer.parseInt(topping[0]);
+        this.description = topping[1];
+        this.price = new BigDecimal(topping[2]);
     }
 
     public Integer getId() {

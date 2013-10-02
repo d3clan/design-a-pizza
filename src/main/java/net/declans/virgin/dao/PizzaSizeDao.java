@@ -1,8 +1,7 @@
 package net.declans.virgin.dao;
 
-import java.util.Set;
+import java.util.Collection;
 import net.declans.virgin.model.PizzaSizeEntity;
-import net.declans.virgin.model.ToppingEntity;
 
 /**
  * Project: design-a-pizza Date: 02/10/2013
@@ -14,5 +13,7 @@ public interface PizzaSizeDao {
     /**
      * @return the set of all sizes
      */
-    Set<PizzaSizeEntity> findAllPizzaSizes();
+    Collection<PizzaSizeEntity> findAllPizzaSizes();
+
+    PizzaSizeEntity findById(Integer id);
 }
