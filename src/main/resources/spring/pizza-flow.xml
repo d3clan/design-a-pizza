@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <!-- <secured attributes="ROLE_USER" /> -->
+
+    <input name="id" />
+
+    <decision-state id="createOrEdit">
+        <if test="id == null" then="create" else="edit" />
+    </decision-state>
+
+    <action-state id="create">
+        <evaluate expression="pizzaEntity" result="flowScope.pizza" />
+        <transition to="pizzaForm" />
+    </action-state>
+
+    <action-state id="edit">
+        <evaluate expression="pizzaService.findById(id)" result="flowScope.pizza" />
+        <transition to="pizzaForm" />
+    </action-state>
+
+    <view-state id="pizzaForm" model="pizza" view="/pizza/form">
+        <transition on="save" to="save">
+            <evaluate expression="pizzaService.save(pizza)" />
+            <evaluate expression="pizzaService.find()" result="flowScope.persons" />
+        </transition>
+        <transition on="cancel" to="cancel" bind="false">
+            <evaluate expression="pizzaService.find()" result="flowScope.pizzas" />
+        </transition>
+    </view-state>
+
+    <end-state id="save"/>
+
+    <end-state id="cancel"/>
+
+</flow>
