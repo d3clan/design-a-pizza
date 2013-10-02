@@ -2,6 +2,8 @@ package net.declans.virgin.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Project: design-a-pizza Date: 02/10/2013
@@ -53,6 +55,14 @@ public class ToppingEntity implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    // TODO Should go into a utils class
+    public String getFormattedPrice() {
+        NumberFormat ukFormat = NumberFormat.getCurrencyInstance(Locale.UK);
+        ukFormat.setMinimumFractionDigits(2);
+        ukFormat.setMaximumFractionDigits(2);
+        return ukFormat.format(price.doubleValue());
     }
 
     @Override

@@ -1,7 +1,11 @@
 package net.declans.virgin.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Project: design-a-pizza Date: 01/10/2013
@@ -46,6 +50,32 @@ public class PizzaEntity implements Serializable {
 
     public void setToppings(List<ToppingEntity> toppings) {
         this.toppings = toppings;
+    }
+
+    // TODO Should go into a utils class
+    public String getFormattedPrice() {
+        NumberFormat ukFormat = NumberFormat.getCurrencyInstance(Locale.UK);
+        ukFormat.setMinimumFractionDigits(2);
+        ukFormat.setMaximumFractionDigits(2);
+        BigDecimal result = new BigDecimal("0.00");
+        if (baseSize != null) {
+            result.add(baseSize.getPrice());
+            Double multiplier = baseSize.getMultiplier();
+            for (ToppingEntity topping : toppings) {
+                result.add(topping.getPrice().multiply(BigDecimal.valueOf(multiplier)));
+            }
+        }
+        return ukFormat.format(result.doubleValue());
+    }
+
+    @Override
+    public String toString() {
+        return "PizzaEntity{" +
+                "id=" + id +
+                ", toppings=" + toppings +
+                ", baseSize=" + baseSize +
+                ", price=" + getFormattedPrice() +
+                '}';
     }
 
     @Override

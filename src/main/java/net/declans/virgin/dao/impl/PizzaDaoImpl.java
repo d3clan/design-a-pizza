@@ -1,6 +1,7 @@
 package net.declans.virgin.dao.impl;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.declans.virgin.dao.PizzaDao;
 import net.declans.virgin.model.PizzaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class PizzaDaoImpl implements PizzaDao {
     @Autowired
     private CacheManager cacheManager;
 
-    private Integer counter;
+    private static AtomicInteger counter = new AtomicInteger(1);
 
     /**
      * Save or update a representation  of a pizza
@@ -34,7 +35,7 @@ public class PizzaDaoImpl implements PizzaDao {
         if (pizza.getId() != null) {
             cache.put(pizza.getId(), pizza);
         } else {
-            pizza.setId(counter++);
+            pizza.setId(counter.getAndIncrement());
             cache.put(pizza.getId(), pizza);
         }
         // Not great, but it validates that the pizza has been stored

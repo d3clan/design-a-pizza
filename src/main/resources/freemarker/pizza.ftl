@@ -7,6 +7,11 @@
     </div>
 </div>
 <div class="container marketing">
+    <ul>
+    <#list toppings as topping>
+        <li>${topping.id} ${topping.description} ${topping.formattedPrice}</li>
+    </#list>
+    </ul>
     <!-- Three columns of text below the carousel -->
     <div class="row">
         <div class="span4">
