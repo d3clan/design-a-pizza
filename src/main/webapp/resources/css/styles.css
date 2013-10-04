@@ -158,6 +158,47 @@ body {
     height: 340px;
 }
 
+#feedback {
+    font-size: 1em;
+}
+
+.selectable-overrides .ui-selecting {
+    background: #FECA40;
+}
+
+.selectable-overrides .ui-selected {
+    background: #F39814;
+    color: white;
+}
+
+.selectable-overrides {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: block;
+    position: inherit;
+}
+
+.selectable-overrides li {
+    margin: 3px;
+    padding: 0.4em;
+    font-size: 1em;
+    height: 18px;
+    border: 1px;
+}
+
+.hero-unit {
+    background-color: #336699;
+    padding: 20px;
+}
+
+.hero-unit h1 {
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+    color:#FFFFFF;
+}
+
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
