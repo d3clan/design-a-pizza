@@ -25,6 +25,20 @@ public class PizzaDaoImpl implements PizzaDao {
     private static AtomicInteger counter = new AtomicInteger(1);
 
     /**
+     * Find the entity given the id
+     *
+     * @param id of the entity
+     * @return the entity or null if not found
+     */
+    @Override
+    public PizzaEntity findById(Integer id) {
+        Assert.notNull(id, "Cannot locate with a null id");
+        Cache cache = cacheManager.getCache("pizza");
+        Cache.ValueWrapper wrapper = cache.get(id);
+        return wrapper != null ? (PizzaEntity) wrapper.get() : null;
+    }
+
+    /**
      * Save or update a representation  of a pizza
      *
      * @param pizza the PizzaEntity to be created

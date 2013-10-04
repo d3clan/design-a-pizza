@@ -16,6 +16,18 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Autowired
     private PizzaDao pizzaDao;
+
+    /**
+     * Find the entity given the id
+     *
+     * @param id of the entity
+     * @return the entity or null if not found
+     */
+    @Override
+    public PizzaEntity findById(Integer id) {
+        return pizzaDao.findById(id);
+    }
+
     /**
      * Save or update a representation  of a pizza
      *

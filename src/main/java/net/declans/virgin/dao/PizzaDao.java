@@ -11,6 +11,14 @@ import net.declans.virgin.model.PizzaEntity;
 public interface PizzaDao {
 
     /**
+     * Find the entity given the id
+     *
+     * @param id of the entity
+     * @return the entity or null if not found
+     */
+    PizzaEntity findById(Integer id);
+
+    /**
      * Save or update a representation  of a pizza
      * @param pizza the PizzaEntity to be created
      * @return the saved PizzaEntity including a new id if newly created

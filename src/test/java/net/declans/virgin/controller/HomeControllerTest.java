@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("classpath:/spring/servlet-context.xml")
+@ContextConfiguration(value = {"classpath:/spring/servlet-context.xml", "classpath:/spring/root-context.xml"})
 public class HomeControllerTest {
 
     @Autowired
@@ -35,7 +35,7 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void getFoo() throws Exception {
+    public void testHome() throws Exception {
         this.mockMvc.perform(get("/home").accept(MediaType.TEXT_HTML)).andExpect(status().isOk());
     }
 

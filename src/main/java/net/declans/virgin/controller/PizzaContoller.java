@@ -30,45 +30,28 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/pizza")
-public class PizzaContoller {
+public class PizzaContoller extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(PizzaContoller.class);
 
-    @Autowired
-    private PizzaService pizzaService;
-
-    @Autowired
-    private PizzaSizeService pizzaSizeService;
-
-    @Autowired
-    private ToppingService toppingService;
-
-    @ModelAttribute("toppings")
-    public List<ToppingEntity> getAllToppings() {
-        return toppingService.findAllToppings();
-    }
-
-    @ModelAttribute("sizes")
-    public List<PizzaSizeEntity> getAllSizes() {
-        return pizzaSizeService.findAllPizzaSizes();
-    }
-
+    // Just here for cases where someone visits directly to /pizza
     @RequestMapping
     public ModelAndView pizzaPage(ModelAndView mav) {
         logger.debug("Hit the PizzaContoller");
-        mav.setViewName("pizza");
+        mav.setViewName("home");
         return mav;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody PizzaEntity savePizza(@RequestParam("pizzaSizeId") Integer pizzaSizeId, @RequestParam("toppingIds") Integer[] toppingIds) {
+    public @ResponseBody PizzaEntity postPizzaDetails(@RequestParam("pizzaSizeId") Integer pizzaSizeId, @RequestParam("toppingIds") Integer[] toppingIds) {
         logger.debug("Hit the savePizza method with {}, {}", pizzaSizeId, toppingIds);
-        PizzaEntity pizzaEntity = new PizzaEntity();
-        PizzaSizeEntity pizzaSize = pizzaSizeService.findById(pizzaSizeId);
-        pizzaEntity.setBaseSize(pizzaSize);
-        List<ToppingEntity> toppings = toppingService.findByIds(toppingIds);
-        pizzaEntity.setToppings(toppings);
-        return pizzaService.saveOrUpdatePizza(pizzaEntity);
+        return buildPizzaEntity(pizzaSizeId, toppingIds);
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody PizzaEntity savePizzaDetails(@RequestParam("pizzaSizeId") Integer pizzaSizeId, @RequestParam("toppingIds") Integer[] toppingIds) {
+        logger.debug("Hit the savePizza method with {}, {}", pizzaSizeId, toppingIds);
+        return pizzaService.saveOrUpdatePizza(buildPizzaEntity(pizzaSizeId, toppingIds));
     }
 
     @RequestMapping(value = "/toppings/{size}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,6 +64,15 @@ public class PizzaContoller {
             te.setMultiplier(multiplier);
         }
         return allToppings;
+    }
+
+    private PizzaEntity buildPizzaEntity(Integer pizzaSizeId, Integer[] toppingIds) {
+        PizzaEntity pizzaEntity = new PizzaEntity();
+        PizzaSizeEntity pizzaSize = pizzaSizeService.findById(pizzaSizeId);
+        pizzaEntity.setBaseSize(pizzaSize);
+        List<ToppingEntity> toppings = toppingService.findByIds(toppingIds);
+        pizzaEntity.setToppings(toppings);
+        return pizzaEntity;
     }
 
 }

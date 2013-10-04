@@ -52,6 +52,9 @@ body {
     margin-top: 10px;
 }
 
+#pizza-toppings li {
+    list-style: none;
+}
 
 
 /* CUSTOMIZE THE CAROUSEL
