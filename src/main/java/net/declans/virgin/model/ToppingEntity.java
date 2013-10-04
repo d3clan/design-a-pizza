@@ -1,5 +1,6 @@
 package net.declans.virgin.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -16,53 +17,50 @@ import java.util.Locale;
  *
  * @author Declan Newman (declan)
  */
-public class ToppingEntity implements Serializable {
+public class ToppingEntity extends PizzaComponent<ToppingEntity> {
 
-    private Integer id;
-    private String description;
-    private BigDecimal price;
+    private String type;
+    // Default to 1
+    @JsonIgnore
+    private Double multiplier = 1.00D;
 
     public ToppingEntity() {
         super();
     }
 
     public ToppingEntity(String[] topping) {
-        super();
-        this.id = Integer.parseInt(topping[0]);
-        this.description = topping[1];
-        this.price = new BigDecimal(topping[2]);
+        super(Integer.parseInt(topping[0]), topping[1], new BigDecimal(topping[2]));
+        this.type = topping[3];
     }
 
-    public Integer getId() {
-        return id;
+    public String getType() {
+        return type;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getDescription() {
-        return description;
+    public Double getMultiplier() {
+        return multiplier;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMultiplier(Double multiplier) {
+        this.multiplier = multiplier;
     }
 
+    @Override
     public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+        return super.getPrice().multiply(BigDecimal.valueOf(multiplier));
     }
 
     // TODO Should go into a utils class
+    @Override
     public String getFormattedPrice() {
         NumberFormat ukFormat = NumberFormat.getCurrencyInstance(Locale.UK);
         ukFormat.setMinimumFractionDigits(2);
         ukFormat.setMaximumFractionDigits(2);
-        return ukFormat.format(price.doubleValue());
+        return ukFormat.format(getPrice().doubleValue());
     }
 
     @Override
@@ -73,16 +71,13 @@ public class ToppingEntity implements Serializable {
         if (!(o instanceof ToppingEntity)) {
             return false;
         }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         ToppingEntity that = (ToppingEntity) o;
 
-        if (description != null ? !description.equals(that.description) : that.description != null) {
-            return false;
-        }
-        if (!id.equals(that.id)) {
-            return false;
-        }
-        if (price != null ? !price.equals(that.price) : that.price != null) {
+        if (type != null ? !type.equals(that.type) : that.type != null) {
             return false;
         }
 
@@ -91,9 +86,8 @@ public class ToppingEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 }

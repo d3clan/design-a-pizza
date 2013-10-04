@@ -59,10 +59,11 @@ public class PizzaEntity implements Serializable {
         ukFormat.setMaximumFractionDigits(2);
         BigDecimal result = new BigDecimal("0.00");
         if (baseSize != null) {
-            result.add(baseSize.getPrice());
+            result = baseSize.getPrice();
             Double multiplier = baseSize.getMultiplier();
             for (ToppingEntity topping : toppings) {
-                result.add(topping.getPrice().multiply(BigDecimal.valueOf(multiplier)));
+                topping.setMultiplier(multiplier);
+                result = result.add(topping.getPrice());
             }
         }
         return ukFormat.format(result.doubleValue());

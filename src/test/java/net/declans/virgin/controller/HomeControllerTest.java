@@ -38,4 +38,5 @@ public class HomeControllerTest {
     public void getFoo() throws Exception {
         this.mockMvc.perform(get("/home").accept(MediaType.TEXT_HTML)).andExpect(status().isOk());
     }
+
 }

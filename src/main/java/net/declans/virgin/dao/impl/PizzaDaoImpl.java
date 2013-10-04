@@ -7,6 +7,7 @@ import net.declans.virgin.model.PizzaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
  *
  * @author Declan Newman (declan)
  */
+@Repository
 public class PizzaDaoImpl implements PizzaDao {
 
     // Simple persistence method

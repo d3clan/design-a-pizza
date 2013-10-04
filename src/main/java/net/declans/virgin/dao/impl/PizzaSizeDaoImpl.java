@@ -3,7 +3,9 @@ package net.declans.virgin.dao.impl;
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Resource;
@@ -35,8 +37,10 @@ public class PizzaSizeDaoImpl implements PizzaSizeDao, InitializingBean {
      * @return the set of all sizes
      */
     @Override
-    public Collection<PizzaSizeEntity> findAllPizzaSizes() {
-        return availableSizes.values();
+    public List<PizzaSizeEntity> findAllPizzaSizes() {
+        List<PizzaSizeEntity> list = new ArrayList<>(availableSizes.values());
+        Collections.sort(list);
+        return list;
     }
 
     @Override

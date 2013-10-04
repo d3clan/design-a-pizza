@@ -3,7 +3,10 @@ package net.declans.virgin.dao.impl;
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Resource;
@@ -37,8 +40,10 @@ public class ToppingDaoImpl implements ToppingDao, InitializingBean {
      * @return the set of all toppings
      */
     @Override
-    public Collection<ToppingEntity> findAllToppings() {
-        return availableToppings.values();
+    public List<ToppingEntity> findAllToppings() {
+        List<ToppingEntity> list =  new ArrayList<>(availableToppings.values());
+        Collections.sort(list);
+        return list;
     }
 
     @Override

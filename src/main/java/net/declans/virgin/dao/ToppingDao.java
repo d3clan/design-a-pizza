@@ -1,6 +1,7 @@
 package net.declans.virgin.dao;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import net.declans.virgin.model.ToppingEntity;
 
@@ -14,7 +15,7 @@ public interface ToppingDao {
     /**
      * @return the set of all toppings
      */
-    Collection<ToppingEntity> findAllToppings();
+    List<ToppingEntity> findAllToppings();
 
     /**
      * Return a single ToppingEntity

@@ -1,6 +1,8 @@
 package net.declans.virgin.service;
 
 import java.util.Collection;
+import java.util.List;
+import net.declans.virgin.model.PizzaSizeEntity;
 import net.declans.virgin.model.ToppingEntity;
 
 /**
@@ -13,7 +15,12 @@ public interface ToppingService {
     /**
      * @return the set of all toppings
      */
-    Collection<ToppingEntity> findAllToppings();
+    List<ToppingEntity> findAllToppings();
+
+    /**
+     * @return the List of all toppings that have a matching id in the toppingIds array
+     */
+    List<ToppingEntity> findByIds(Integer[] toppingIds);
 
     /**
      * Return a single ToppingEntity

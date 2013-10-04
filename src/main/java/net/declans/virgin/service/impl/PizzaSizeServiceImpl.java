@@ -1,6 +1,6 @@
 package net.declans.virgin.service.impl;
 
-import java.util.Collection;
+import java.util.List;
 import net.declans.virgin.dao.PizzaSizeDao;
 import net.declans.virgin.model.PizzaSizeEntity;
 import net.declans.virgin.service.PizzaSizeService;
@@ -22,7 +22,7 @@ public class PizzaSizeServiceImpl implements PizzaSizeService {
      * @return the set of all sizes
      */
     @Override
-    public Collection<PizzaSizeEntity> findAllPizzaSizes() {
+    public List<PizzaSizeEntity> findAllPizzaSizes() {
         return pizzaSizeDao.findAllPizzaSizes();
     }
 
