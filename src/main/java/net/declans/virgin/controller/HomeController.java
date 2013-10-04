@@ -17,7 +17,7 @@ public class HomeController extends BaseController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value= {"/", "/home", "/index.html"})
+	@RequestMapping(value= {"", "/", "/home", "/index.html"})
 	public ModelAndView home() {
 		logger.debug("Hit the HomeController");
 		ModelAndView mav = new ModelAndView("home");

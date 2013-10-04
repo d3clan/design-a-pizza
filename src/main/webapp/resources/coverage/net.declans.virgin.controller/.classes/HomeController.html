@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HomeController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">net.declans.virgin.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HomeController (net.declans.virgin.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HomeController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (2/ 5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package net.declans.virgin.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.slf4j.Logger;
+<i>4</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>5</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>6</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>7</i>&nbsp;import org.springframework.web.servlet.ModelAndView;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Handles requests for the application home page.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;@Controller
+<b class="fc"><i>13</i>&nbsp;public class HomeController extends BaseController {</b>
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;	/**
+<i>18</i>&nbsp;	 * Simply selects the home view to render by returning its name.
+<i>19</i>&nbsp;	 */
+<i>20</i>&nbsp;	@RequestMapping(value= {&quot;/&quot;})
+<i>21</i>&nbsp;	public ModelAndView home() {
+<b class="nc"><i>22</i>&nbsp;		logger.debug(&quot;Hit the HomeController&quot;);</b>
+<b class="nc"><i>23</i>&nbsp;		ModelAndView mav = new ModelAndView(&quot;home&quot;);</b>
+<b class="nc"><i>24</i>&nbsp;		return mav;</b>
+<i>25</i>&nbsp;	}
+<i>26</i>&nbsp;	
+<i>27</i>&nbsp;}
+<i>28</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2013-10-04 11:38</div>
+</div>
+</body>
+</html>

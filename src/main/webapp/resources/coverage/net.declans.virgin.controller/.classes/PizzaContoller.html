@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PizzaContoller</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">net.declans.virgin.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PizzaContoller (net.declans.virgin.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PizzaContoller</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (6/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.4%
+  </span>
+  <span class="absValue">
+    (19/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package net.declans.virgin.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.math.BigDecimal;
+<i>4</i>&nbsp;import java.util.Collection;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;import net.declans.virgin.model.PizzaEntity;
+<i>7</i>&nbsp;import net.declans.virgin.model.PizzaSizeEntity;
+<i>8</i>&nbsp;import net.declans.virgin.model.ToppingEntity;
+<i>9</i>&nbsp;import net.declans.virgin.service.PizzaService;
+<i>10</i>&nbsp;import net.declans.virgin.service.PizzaSizeService;
+<i>11</i>&nbsp;import net.declans.virgin.service.ToppingService;
+<i>12</i>&nbsp;import org.slf4j.Logger;
+<i>13</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>14</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>15</i>&nbsp;import org.springframework.http.MediaType;
+<i>16</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>17</i>&nbsp;import org.springframework.validation.BindingResult;
+<i>18</i>&nbsp;import org.springframework.web.bind.annotation.ModelAttribute;
+<i>19</i>&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+<i>20</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>21</i>&nbsp;import org.springframework.web.bind.annotation.RequestMethod;
+<i>22</i>&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+<i>23</i>&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+<i>24</i>&nbsp;import org.springframework.web.servlet.ModelAndView;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;/**
+<i>27</i>&nbsp; * Project: design-a-pizza Date: 01/10/2013
+<i>28</i>&nbsp; *
+<i>29</i>&nbsp; * @author Declan Newman (declan)
+<i>30</i>&nbsp; */
+<i>31</i>&nbsp;@Controller
+<i>32</i>&nbsp;@RequestMapping(&quot;/pizza&quot;)
+<b class="fc"><i>33</i>&nbsp;public class PizzaContoller extends BaseController {</b>
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;    private static final Logger logger = LoggerFactory.getLogger(PizzaContoller.class);</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    // Just here for cases where someone visits directly to /pizza
+<i>38</i>&nbsp;    @RequestMapping
+<i>39</i>&nbsp;    public ModelAndView pizzaPage(ModelAndView mav) {
+<b class="nc"><i>40</i>&nbsp;        logger.debug(&quot;Hit the PizzaContoller&quot;);</b>
+<b class="nc"><i>41</i>&nbsp;        mav.setViewName(&quot;home&quot;);</b>
+<b class="nc"><i>42</i>&nbsp;        return mav;</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @RequestMapping(value = &quot;/update&quot;, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+<i>46</i>&nbsp;    public @ResponseBody PizzaEntity postPizzaDetails(@RequestParam(&quot;pizzaSizeId&quot;) Integer pizzaSizeId, @RequestParam(&quot;toppingIds&quot;) Integer[] toppingIds) {
+<b class="fc"><i>47</i>&nbsp;        logger.debug(&quot;Hit the savePizza method with {}, {}&quot;, pizzaSizeId, toppingIds);</b>
+<b class="fc"><i>48</i>&nbsp;        return buildPizzaEntity(pizzaSizeId, toppingIds);</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @RequestMapping(value = &quot;/save&quot;, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+<i>52</i>&nbsp;    public @ResponseBody PizzaEntity savePizzaDetails(@RequestParam(&quot;pizzaSizeId&quot;) Integer pizzaSizeId, @RequestParam(&quot;toppingIds&quot;) Integer[] toppingIds) {
+<b class="fc"><i>53</i>&nbsp;        logger.debug(&quot;Hit the savePizza method with {}, {}&quot;, pizzaSizeId, toppingIds);</b>
+<b class="fc"><i>54</i>&nbsp;        return pizzaService.saveOrUpdatePizza(buildPizzaEntity(pizzaSizeId, toppingIds));</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @RequestMapping(value = &quot;/toppings/{size}&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+<i>58</i>&nbsp;    public @ResponseBody List&lt;ToppingEntity&gt; findPizzaToppings(@PathVariable(&quot;size&quot;) Integer size) {
+<b class="fc"><i>59</i>&nbsp;        PizzaSizeEntity pizzaSizeEntity = pizzaSizeService.findById(size);</b>
+<b class="fc"><i>60</i>&nbsp;        Double multiplier = pizzaSizeEntity != null ? pizzaSizeEntity.getMultiplier() : 1.0D;</b>
+<b class="fc"><i>61</i>&nbsp;        List&lt;ToppingEntity&gt; allToppings = toppingService.findAllToppings();</b>
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;        for (ToppingEntity te : allToppings) {</b>
+<b class="fc"><i>64</i>&nbsp;            te.setMultiplier(multiplier);</b>
+<b class="fc"><i>65</i>&nbsp;        }</b>
+<b class="fc"><i>66</i>&nbsp;        return allToppings;</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    private PizzaEntity buildPizzaEntity(Integer pizzaSizeId, Integer[] toppingIds) {
+<b class="fc"><i>70</i>&nbsp;        PizzaEntity pizzaEntity = new PizzaEntity();</b>
+<b class="fc"><i>71</i>&nbsp;        PizzaSizeEntity pizzaSize = pizzaSizeService.findById(pizzaSizeId);</b>
+<b class="fc"><i>72</i>&nbsp;        pizzaEntity.setBaseSize(pizzaSize);</b>
+<b class="fc"><i>73</i>&nbsp;        List&lt;ToppingEntity&gt; toppings = toppingService.findByIds(toppingIds);</b>
+<b class="fc"><i>74</i>&nbsp;        pizzaEntity.setToppings(toppings);</b>
+<b class="fc"><i>75</i>&nbsp;        return pizzaEntity;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2013-10-04 11:38</div>
+</div>
+</body>
+</html>

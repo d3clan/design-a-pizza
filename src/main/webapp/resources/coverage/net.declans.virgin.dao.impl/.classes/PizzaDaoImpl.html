@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PizzaDaoImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">net.declans.virgin.dao.impl</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PizzaDaoImpl (net.declans.virgin.dao.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PizzaDaoImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (19/ 20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package net.declans.virgin.dao.impl;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Arrays;
+<i>4</i>&nbsp;import java.util.concurrent.atomic.AtomicInteger;
+<i>5</i>&nbsp;import net.declans.virgin.dao.PizzaDao;
+<i>6</i>&nbsp;import net.declans.virgin.model.PizzaEntity;
+<i>7</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>8</i>&nbsp;import org.springframework.cache.Cache;
+<i>9</i>&nbsp;import org.springframework.cache.CacheManager;
+<i>10</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>11</i>&nbsp;import org.springframework.util.Assert;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Project: design-a-pizza Date: 02/10/2013
+<i>15</i>&nbsp; *
+<i>16</i>&nbsp; * @author Declan Newman (declan)
+<i>17</i>&nbsp; */
+<i>18</i>&nbsp;@Repository
+<b class="fc"><i>19</i>&nbsp;public class PizzaDaoImpl implements PizzaDao {</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    // Simple persistence method
+<i>22</i>&nbsp;    @Autowired
+<i>23</i>&nbsp;    private CacheManager cacheManager;
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;    private static AtomicInteger counter = new AtomicInteger(1);</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Find the entity given the id
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @param id of the entity
+<i>31</i>&nbsp;     * @return the entity or null if not found
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public PizzaEntity findById(Integer id) {
+<b class="fc"><i>35</i>&nbsp;        Assert.notNull(id, &quot;Cannot locate with a null id&quot;);</b>
+<b class="fc"><i>36</i>&nbsp;        Cache cache = cacheManager.getCache(&quot;pizza&quot;);</b>
+<b class="fc"><i>37</i>&nbsp;        Cache.ValueWrapper wrapper = cache.get(id);</b>
+<b class="fc"><i>38</i>&nbsp;        return wrapper != null ? (PizzaEntity) wrapper.get() : null;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Save or update a representation  of a pizza
+<i>43</i>&nbsp;     *
+<i>44</i>&nbsp;     * @param pizza the PizzaEntity to be created
+<i>45</i>&nbsp;     * @return the saved PizzaEntity including a new id if newly created
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    @Override
+<i>48</i>&nbsp;    public PizzaEntity saveOrUpdatePizza(PizzaEntity pizza) {
+<b class="fc"><i>49</i>&nbsp;        Assert.notNull(pizza, &quot;Cannot persist a null entity&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;        Cache cache = cacheManager.getCache(&quot;pizza&quot;);</b>
+<b class="fc"><i>51</i>&nbsp;        if (pizza.getId() != null) {</b>
+<b class="nc"><i>52</i>&nbsp;            cache.put(pizza.getId(), pizza);</b>
+<i>53</i>&nbsp;        } else {
+<b class="fc"><i>54</i>&nbsp;            pizza.setId(counter.getAndIncrement());</b>
+<b class="fc"><i>55</i>&nbsp;            cache.put(pizza.getId(), pizza);</b>
+<i>56</i>&nbsp;        }
+<i>57</i>&nbsp;        // Not great, but it validates that the pizza has been stored
+<b class="fc"><i>58</i>&nbsp;        return (PizzaEntity) cache.get(pizza.getId()).get();</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * Delete a PizzaEntity
+<i>63</i>&nbsp;     *
+<i>64</i>&nbsp;     * @param pizza the PizzaEntity to be deleted
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    @Override
+<i>67</i>&nbsp;    public void deletePizza(PizzaEntity pizza) {
+<b class="fc"><i>68</i>&nbsp;        Assert.notNull(pizza, &quot;Cannot delete a null entity&quot;);</b>
+<b class="fc"><i>69</i>&nbsp;        deletePizza(pizza.getId());</b>
+<b class="fc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * Delete a PizzaEntity
+<i>74</i>&nbsp;     *
+<i>75</i>&nbsp;     * @param id the id of the PizzaEntity to be deleted
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    @Override
+<i>78</i>&nbsp;    public void deletePizza(Integer id) {
+<b class="fc"><i>79</i>&nbsp;        Assert.notNull(id, &quot;Cannot delete an entity with a null id&quot;);</b>
+<b class="fc"><i>80</i>&nbsp;        Cache cache = cacheManager.getCache(&quot;pizza&quot;);</b>
+<b class="fc"><i>81</i>&nbsp;        cache.evict(id);</b>
+<b class="fc"><i>82</i>&nbsp;    }</b>
+<i>83</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2013-10-04 11:38</div>
+</div>
+</body>
+</html>

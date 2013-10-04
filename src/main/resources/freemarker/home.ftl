@@ -69,7 +69,7 @@
                 data: { pizzaSizeId: pizzaSizeId, toppingIds: toppings }
             }).done(function( msg ) {
                alert("Your Pizza Has been ordered");
-               window.location.href = "<@spring.url '/'/>";
+               window.location.href = "<@spring.url '/pizza'/>";
             });
         }),
         updatePrice();
